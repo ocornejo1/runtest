@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RunRight</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0A0A0F;
+            color: #fff;
+            line-height: 1.6;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 80px 0; }
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #0066FF, #00D4AA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-subtitle { color: #8A8A9A; margin-bottom: 40px; max-width: 600px; }
+
+        /* Nav */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 16px 0;
+            background: rgba(10, 10, 15, 0.95);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        nav .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo {
+            font-size: 1.4rem; font-weight: 700;
+            background: linear-gradient(135deg, #0066FF, #00D4AA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links a { color: #8A8A9A; text-decoration: none; font-size: 0.9rem; }
+        .nav-links a:hover { color: #fff; }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+        .hero-content { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .hero h1 { font-size: 3rem; font-weight: 700; line-height: 1.1; margin-bottom: 20px; }
+        .hero h1 span {
+            background: linear-gradient(135deg, #0066FF, #00D4AA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p { color: #8A8A9A; font-size: 1.1rem; margin-bottom: 30px; }
+        .hero-stats { display: flex; gap: 40px; margin-top: 40px; }
+        .stat-number {
+            font-size: 2rem; font-weight: 700;
+            background: linear-gradient(135deg, #0066FF, #00D4AA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label { font-size: 0.85rem; color: #8A8A9A; }
+        .stat-source { font-size: 0.7rem; color: #666; }
+        .phone-mockup {
+            width: 260px; height: 520px;
+            background: #16161F;
+            border-radius: 36px;
+            border: 2px solid rgba(255,255,255,0.1);
+            margin: 0 auto;
+            display: flex; align-items: center; justify-content: center;
+            color: #8A8A9A; font-size: 0.85rem; text-align: center; padding: 20px;
+        }
+
+        /* Cards */
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        .card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 32px;
+        }
+        .card h3 { font-size: 1.2rem; margin-bottom: 12px; }
+        .card p { color: #8A8A9A; font-size: 0.95rem; }
+        .card ul { list-style: none; margin-top: 16px; }
+        .card ul li { padding: 6px 0; padding-left: 24px; position: relative; color: #8A8A9A; }
+        .card ul li::before { content: '✓'; position: absolute; left: 0; color: #00D4AA; }
+        .card-icon {
+            width: 50px; height: 50px;
+            background: linear-gradient(135deg, #0066FF, #00D4AA);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; margin-bottom: 20px;
+        }
+
+        /* Alt background */
+        .bg-alt { background: #16161F; }
+
+        /* Tech tags */
+        .tech-stack { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 40px; }
+        .tech-tag {
+            background: rgba(0,102,255,0.1);
+            border: 1px solid rgba(0,102,255,0.3);
+            color: #0066FF;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+        }
+
+        /* Timeline */
+        .timeline { padding-left: 30px; border-left: 2px solid #0066FF; }
+        .timeline-step { padding-bottom: 30px; position: relative; }
+        .timeline-step::before {
+            content: ''; position: absolute; left: -36px; top: 4px;
+            width: 12px; height: 12px; background: #0066FF; border-radius: 50%;
+        }
+        .timeline-step h4 { font-size: 1.1rem; margin-bottom: 6px; }
+        .timeline-step p { color: #8A8A9A; font-size: 0.9rem; }
+
+        /* Video */
+        .video-container {
+            max-width: 800px; margin: 0 auto;
+            background: #16161F;
+            border-radius: 16px;
+            aspect-ratio: 16/9;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .video-container p { color: #8A8A9A; }
+
+        /* Screenshots */
+        .screenshots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 50px; }
+        .screenshot {
+            background: #16161F;
+            border-radius: 16px;
+            aspect-ratio: 9/16;
+            display: flex; align-items: center; justify-content: center;
+            color: #8A8A9A; font-size: 0.85rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Feedback */
+        .feedback-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #0066FF, #00D4AA);
+            border-radius: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Team */
+        .team-grid { display: flex; justify-content: center; gap: 60px; margin-top: 40px; }
+        .team-member { text-align: center; }
+        .team-avatar {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, #0066FF, #00D4AA);
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; font-weight: 700;
+        }
+        .team-member h4 { font-size: 1rem; margin-bottom: 4px; }
+        .team-member p { color: #8A8A9A; font-size: 0.85rem; }
+
+        /* Footer */
+        footer { padding: 30px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
+        footer a { color: #0066FF; text-decoration: none; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero-content, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+            .screenshots { grid-template-columns: repeat(2, 1fr); }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero-content { text-align: center; }
+            .hero-stats { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">RunRight</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#video">Elevator Pitch</a></li>
+                <li><a href="#methodology">Methodology</a></li>
+                <li><a href="#results">Results</a></li>
+                <li><a href="#feedback">Feedback</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero" id="about">
+        <div class="container">
+            <div class="hero-content">
+                <div>
+                    <h1>Run Smarter.<br><span>Prevent Injuries.</span></h1>
+                    <p>RunRight is an iOS app that uses personalized recommendations and pain tracking to help beginner runners build healthy habits while avoiding common injuries.</p>
+                    <div class="hero-stats">
+                        <div>
+                            <div class="stat-number">50%</div>
+                            <div class="stat-label">of runners get injured yearly</div>
+                        </div>
+                        <div>
+                            <div class="stat-number">80%</div>
+                            <div class="stat-label">are overuse injuries</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="phone-mockup"><img src="images/homescreen.png" alt="Home Screen" style="width:100%;height:100%;object-fit:cover;border-radius:34px;"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section bg-alt" id="problem">
+        <div class="container">
+            <h2 class="section-title">The Problem</h2>
+            <p class="section-subtitle">Running is one of the most accessible forms of exercise but beginners face significant challenges that lead to injury and dropout.</p>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-icon">😴</div>
+                    <h3>Modern Lifestyle</h3>
+                    <p>Many people don't exercise enough. When they finally decide to start running, their bodies aren't prepared for the impact which leads to injuries that discourage them from continuing.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <h3>Running Apps</h3>
+                    <p>Most running apps just track your runs without providing guidance. They don't tell you what to do or how to progress safely based on your individual running level.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📈</div>
+                    <h3>Too Much Too Soon</h3>
+                    <p>Without personalized guidance beginners often increase distance or intensity too quickly. This leads to overuse injuries that sideline them for weeks or cause them to quit entirely.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="video" style="text-align: center;">
+        <div class="container">
+            <h2 class="section-title">Elevator Pitch</h2>
+            <p class="section-subtitle" style="margin: 0 auto 40px;">A quick overview of RunRight</p>
+            <div class="video-container">
+                <p>videolink</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section bg-alt" id="methodology">
+        <div class="container">
+            <h2 class="section-title">Methodology</h2>
+            <p class="section-subtitle">How I built a running companion.</p>
+            <div class="tech-stack">
+                <span class="tech-tag">Swift</span>
+                <span class="tech-tag">SwiftUI</span>
+                <span class="tech-tag">Firebase Auth</span>
+                <span class="tech-tag">Cloud Firestore</span>
+                <span class="tech-tag">MapKit</span>
+                <span class="tech-tag">Core Location</span>
+                <span class="tech-tag">Xcode</span>
+            </div>
+            <div class="timeline">
+                <div class="timeline-step">
+                    <h4>1. Research & Problem Definition</h4>
+                    <p>Researched running injury statistics and identified that most injuries stem from progressing too quickly and found that existing apps lack personalized guidance for beginners. I can testify for both from my own experience.</p>
+                </div>
+                <div class="timeline-step">
+                    <h4>2. Architecture & Data Model Design</h4>
+                    <p>Designed the app using Model View ViewModel architecture for clean separation of concerns. Used Firestore database for users, runs, and check-ins.</p>
+                </div>
+                <div class="timeline-step">
+                    <h4>3. Authentication & User Profiles</h4>
+                    <p>Implemented Firebase Authentication for secure email/password login. Built an onboarding survey to capture experience level, goals, and running history using SwiftUI.</p>
+                </div>
+                <div class="timeline-step">
+                    <h4>4. Run Tracking Implementation</h4>
+                    <p>Built GPS-based run tracking using Core Location and MapKit. Implemented real-time pace calculation, distance tracking, and route visualization with pause/resume functionality.</p>
+                </div>
+                <div class="timeline-step">
+                    <h4>5. Recommendation Engine Development</h4>
+                    <p>Created a readiness-based algorithm in Swift that computes a score (0-100) based on recent run difficulty, pain levels, rest days, soreness, and sleep quality. The engine uses this score to suggest appropriate workouts.</p>
+                </div>
+                <div class="timeline-step">
+                    <h4>6. Progressive Overload Logic</h4>
+                    <p>Implemented safe progression rules such as maximum 10% weekly volume increase along with goal-aware distance targets and automatic rest recommendations when pain or fatigue thresholds are exceeded.</p>
+                </div>
+                <div class="timeline-step">
+                    <h4>7. UI/UX Design & Testing</h4>
+                    <p>Designed a clean SwiftUI interface with beginner-friendly messaging which uses relative pace analysis specific to the user.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="results">
+        <div class="container">
+            <h2 class="section-title">Results & Features</h2>
+            <p class="section-subtitle">What RunRight delivers for beginner runners.</p>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Smart Recommendations</h3>
+                    <p>Personalized daily workout suggestions based on your unique data.</p>
+                    <ul>
+                        <li>Requires 3 runs to build baseline</li>
+                        <li>Considers pain, soreness, and sleep</li>
+                        <li>Goal-aware progression (5K, 10K, etc.)</li>
+                        <li>Automatic rest day suggestions</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Pain & Recovery Tracking</h3>
+                    <p>Monitor your body's signals to prevent overtraining.</p>
+                    <ul>
+                        <li>Post-run pain level (0-10 scale)</li>
+                        <li>Specific pain area tracking</li>
+                        <li>Daily soreness check-ins</li>
+                        <li>Sleep quality consideration</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Live Run Tracking</h3>
+                    <p>Real-time metrics during your runs.</p>
+                    <ul>
+                        <li>GPS route tracking with MapKit</li>
+                        <li>Live pace display</li>
+                        <li>Distance and duration</li>
+                        <li>Pause/resume support</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Beginner-Friendly Design</h3>
+                    <p>Encouraging feedback that builds confidence.</p>
+                    <ul>
+                        <li>Relative pace analysis (vs. YOUR average)</li>
+                        <li>Supportive, encouraging messages</li>
+                        <li>Educational explanations</li>
+                        <li>Progressive goal tracking</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="screenshots">
+                <div class="screenshot"><img src="images/homescreen.png" alt="Home Screen" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div class="screenshot"><img src="images/tracking.png" alt="Run Tracking" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div class="screenshot"><img src="images/history.png" alt="Run History" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div class="screenshot"><img src="images/checkin.png" alt="Daily Check-in" style="width:100%;height:100%;object-fit:cover;"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section bg-alt" id="future">
+        <div class="container">
+            <h2 class="section-title">Future Work</h2>
+            <p class="section-subtitle">Where RunRight will go next.</p>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>⌚ Smartwatch Integration</h3>
+                    <p>Connect to smartwatches to access heart rate data, HRV, and other biometrics for more accurate readiness scores and personalized recommendations.</p>
+                </div>
+                <div class="card">
+                    <h3>📚 Enhanced Education Section</h3>
+                    <p>Expand the current education page with detailed exercise guides, video demonstrations, proper warm-up routines, and injury prevention techniques with step-by-step instructions.</p>
+                </div>
+                <div class="card">
+                    <h3>🤖 ML-Based Injury Prediction</h3>
+                    <p>Train machine learning models on user data to predict injury risk and give better workout suggestions.</p>
+                </div>
+                <div class="card">
+                    <h3>👥 Social & Community Features</h3>
+                    <p>Connect with other runners, share progress, and participate in group challenges for motivation and accountability.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="feedback" style="text-align: center;">
+        <div class="container">
+            <h2 class="section-title">Share Your Feedback</h2>
+            <p class="section-subtitle" style="margin: 0 auto 40px;">I'd love to hear your thoughts, questions, or suggestions about RunRight.</p>
+            <a href="https://forms.gle/NQkz1jvQjcqQFtrh6" target="_blank" class="feedback-button">Open Feedback Form</a>
+        </div>
+    </section>
+
+    <section class="section bg-alt" id="acknowledgments" style="text-align: center;">
+        <div class="container">
+            <h2 class="section-title">Acknowledgments</h2>
+            <p class="section-subtitle" style="margin: 0 auto 40px;">Thank you to everyone who supported this project.</p>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-avatar">OC</div>
+                    <h4>Omar Cornejo</h4>
+                    <p>Developer</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-avatar">RA</div>
+                    <h4>Dr. Reza Abdolee</h4>
+                    <p>Capstone Advisor</p>
+                </div>
+            </div>
+            <p style="margin-top: 40px; color: #8A8A9A; max-width: 550px; margin-left: auto; margin-right: auto;">
+                Special thanks to California State University Channel Islands and the Computer Science department for their support throughout this capstone project.
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <a href="https://github.com/ocornejo1/testrun" target="_blank">View on GitHub</a>
+        </div>
+    </footer>
+</body>
+</html>
